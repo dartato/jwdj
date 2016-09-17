@@ -373,15 +373,15 @@ public class CameraActivity extends Activity {
             }
 
             protected void onPostExecute(String result) {
-                moreTranslationsPane.setText(result);
+                moreTranslationsPane.setText("Additional translations:\n\n" + result);
                 showMoreButton.setVisibility(View.VISIBLE);
                 newPictureButton.setVisibility(View.VISIBLE);
 
-                Scanner parseResult = new Scanner(result);
-                parseResult.nextLine();
-                primarySourceWord.setText(parseResult.next());
-                parseResult.next();
-                primaryTranslatedWord.setText(parseResult.next());
+                String [] parseResult = result.split("→");
+
+                primarySourceWord.setText(parseResult[0]);
+
+                primaryTranslatedWord.setText(parseResult[1]);
 
 
                 primarySourceWord.setVisibility(View.VISIBLE);
@@ -390,7 +390,7 @@ public class CameraActivity extends Activity {
         }.execute();
     }
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        String message = "Additional translations:\n\n";
+        //String message = "Additional translations:\n\n";
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
