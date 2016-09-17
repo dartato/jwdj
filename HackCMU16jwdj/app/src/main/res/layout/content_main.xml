@@ -63,7 +63,7 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
@@ -71,11 +71,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:backgroundTint="#bdbdbd"
-        android:background="#efebe9" />
+        android:background="#cceeeeee"
+        android:gravity="center" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
@@ -83,8 +83,9 @@
         android:layout_below="@+id/primary_source_word"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#bdbdbd"
-        android:background="#efebe9" />
+        android:background="#cceeeeee"
+        android:focusable="false"
+        android:gravity="center" />
 
     <TextView
         android:layout_width="fill_parent"
