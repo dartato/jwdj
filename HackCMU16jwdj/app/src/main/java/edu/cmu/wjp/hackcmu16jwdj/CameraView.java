@@ -2,6 +2,7 @@ package edu.cmu.wjp.hackcmu16jwdj;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -44,6 +45,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             appCamera.stopPreview();
         } catch (Exception e) {
 
+            Log.d("surfaceChanged", e.getMessage());
         }
 
         //I think this is where we set the size of the preview/camera
@@ -52,7 +54,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             appCamera.setPreviewDisplay(parentSurface);
             appCamera.startPreview();
         } catch (Exception e) {
-
+            Log.d("surfaceChanged", e.getMessage());
         }
     }
 
