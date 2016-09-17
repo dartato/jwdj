@@ -50,6 +50,8 @@ public class CameraActivity extends Activity {
 
     private Camera appCamera;
     private CameraView appCameraView;
+    private Button captureButton;
+    private Button newPictureButton;
 
     private ImageView appMainImage;
 
@@ -63,29 +65,46 @@ public class CameraActivity extends Activity {
         appCameraParameters.setRotation(90);
         int w =0,h =0;
         for (Camera.Size s: appCameraParameters.getSupportedPictureSizes()) {
-            if (s.height > h) {
+            //Log.d("Resolution Sizes: ", "width: "+s.width+" height: "+s.height+" ratio: "+s.width/(float)(s.height)+" "+1920/1080.0);
+            if (s.height > h && Math.abs((s.width / (float) (s.height) - 16.0 / 9.0)) < 0.1) {
                 w = s.width;
                 h = s.height;
+
             }
         }
         Log.d("onCreate", "width: "+w+" height: "+h);
         appCameraParameters.setPictureSize(w,h);
-
+        appCamera.setParameters(appCameraParameters);
         appCameraView = new CameraView(this, appCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(appCameraView);
         // Add a listener to the Capture button
-        Button captureButton = (Button) findViewById(R.id.button_capture);
+        captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // get an image from the camera
+
                         appCamera.takePicture(null, null, appPicture);
                     }
                 }
         );
-
+        // Add a listener to the NewPicture button
+        newPictureButton = (Button) findViewById(R.id.button_new_picture);
+        newPictureButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newPictureButton.setVisibility(View.GONE);
+                        appMainImage.setVisibility(View.GONE);
+                        captureButton.setVisibility(View.VISIBLE);
+                        appCameraView.setVisibility(View.VISIBLE);
+                        appCameraView.startPreview();
+                    }
+                }
+        );
+        newPictureButton.setVisibility(View.GONE);
         appMainImage = (ImageView) findViewById(R.id.main_image);
 
     }
@@ -132,17 +151,19 @@ public class CameraActivity extends Activity {
         if (uri != null) {
             try {
                 // scale the image to save on bandwidth
-                Bitmap bitmap =
-                        scaleBitmapDown(
-                                MediaStore.Images.Media.getBitmap(getContentResolver(), uri),
-                                1920);
-                alert("Image scaled, calling cloud vision");
+               // Bitmap bitmap =
+                  //      scaleBitmapDown(
+                  Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);//,
+                 //               1920);
                 appMainImage.setImageBitmap(bitmap);
+                appMainImage.setVisibility(View.VISIBLE);
                 appCameraView.setVisibility(View.GONE);
+                captureButton.setVisibility(View.GONE);
+
                 callCloudVision(bitmap);
 
             } catch (IOException e) {
-                //Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
+                alert("Something went wrong");
             }
         } else {
             //Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
@@ -153,28 +174,7 @@ public class CameraActivity extends Activity {
         File dir = getFilesDir();//Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(dir, FILE_NAME);
     }
-    public Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
 
-        int originalWidth = bitmap.getWidth();
-        int originalHeight = bitmap.getHeight();
-        int resizedWidth = maxDimension;
-        int resizedHeight = maxDimension;
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-        if (originalHeight > originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
-        } else if (originalWidth > originalHeight) {
-            resizedWidth = maxDimension;
-            resizedHeight = (int) (resizedWidth * (float) originalHeight / (float) originalWidth);
-        } else if (originalHeight == originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = maxDimension;
-        }
-        return bitmap;//Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
-    }
 
     private void callCloudVision(final Bitmap bitmap) throws IOException {
         // Switch text to loading
@@ -242,6 +242,7 @@ public class CameraActivity extends Activity {
 
             protected void onPostExecute(String result) {
                 alert(result);
+                newPictureButton.setVisibility(View.VISIBLE);
             }
         }.execute();
     }
@@ -260,31 +261,9 @@ public class CameraActivity extends Activity {
 
         return message;
     }
-    private File getOutputFile(){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = getFilesDir(); //new File(Environment.getExternalStoragePublicDirectory(
-                //Environment.DIRECTORY_PICTURES), "HackCMU16jwdj");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("jwdj", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "tmp.jpg");
-
-        return mediaFile;
-    }
     public void alert(String text) {
         CharSequence alert = text;
-        Toast.makeText(getApplicationContext(), alert, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), alert, Toast.LENGTH_LONG).show();
 
     }
 }
