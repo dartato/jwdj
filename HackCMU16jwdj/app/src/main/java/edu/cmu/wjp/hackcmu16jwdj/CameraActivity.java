@@ -383,7 +383,6 @@ public class CameraActivity extends Activity {
 
                 primaryTranslatedWord.setText(parseResult[1]);
 
-
                 primarySourceWord.setVisibility(View.VISIBLE);
                 primaryTranslatedWord.setVisibility(View.VISIBLE);
             }
@@ -391,7 +390,7 @@ public class CameraActivity extends Activity {
     }
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
         //String message = "Additional translations:\n\n";
-
+        String message = "";
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
             for (EntityAnnotation label : labels) {
