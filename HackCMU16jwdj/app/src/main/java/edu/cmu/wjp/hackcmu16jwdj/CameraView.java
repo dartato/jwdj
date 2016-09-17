@@ -17,7 +17,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     public CameraView(Context context, Camera camera) {
         super(context);
         appCamera = camera;
-
+        appCamera.setDisplayOrientation(90);
         parentSurface = getHolder(); //That way we know when the underlying surface is destroyed
         parentSurface.addCallback(this);
 
