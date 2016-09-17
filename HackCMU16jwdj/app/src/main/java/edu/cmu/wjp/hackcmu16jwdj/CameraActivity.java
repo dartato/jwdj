@@ -379,7 +379,14 @@ public class CameraActivity extends Activity {
                 Scanner parseResult = new Scanner(result);
                 parseResult.nextLine();
                 primarySourceWord.setText(parseResult.next());
+                parseResult.next();
                 primaryTranslatedWord.setText(parseResult.next());
+
+                primarySourceWord.setTextColor(Color.WHITE);
+                primarySourceWord.setBackgroundColor(0x08FFFFFF);
+
+                primaryTranslatedWord.setTextColor(Color.WHITE);
+                primaryTranslatedWord.setBackgroundColor(0x08FFFFFF);
 
                 primarySourceWord.setVisibility(View.VISIBLE);
                 primaryTranslatedWord.setVisibility(View.VISIBLE);
