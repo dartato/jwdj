@@ -370,7 +370,7 @@ public class CameraActivity extends Activity {
             }
 
             protected void onPostExecute(String result) {
-                primarySourceWord.setText(result);
+                moreTranslationsPane.setText(result);
                 showMoreButton.setVisibility(View.VISIBLE);
                 newPictureButton.setVisibility(View.VISIBLE);
                 primarySourceWord.setVisibility(View.VISIBLE);
