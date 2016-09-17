@@ -21,7 +21,7 @@ public class TranslateUtil {
     public static String translate(String original, String targetLang){
         try {
             targetLang = targetLang.toUpperCase();
-            Log.d("TranslateUtil", original+"//"+ targetLang);
+           // Log.d("TranslateUtil", original+"//"+ targetLang);
             HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
@@ -38,7 +38,6 @@ public class TranslateUtil {
                     .build(); //Creates the translator
             */
             Translate.Translations.List list = translator.new Translations().list(Arrays.asList(original), targetLang);
-
 
             TranslationsListResponse response = list.execute();
 

@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Scanner;
+
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -373,6 +375,12 @@ public class CameraActivity extends Activity {
                 moreTranslationsPane.setText(result);
                 showMoreButton.setVisibility(View.VISIBLE);
                 newPictureButton.setVisibility(View.VISIBLE);
+
+                Scanner parseResult = new Scanner(result);
+                parseResult.nextLine();
+                primarySourceWord.setText(parseResult.next());
+                primaryTranslatedWord.setText(parseResult.next());
+
                 primarySourceWord.setVisibility(View.VISIBLE);
                 primaryTranslatedWord.setVisibility(View.VISIBLE);
             }
