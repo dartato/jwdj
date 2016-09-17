@@ -32,4 +32,34 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:weightSum="1">
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:id="@+id/spCountryLearn"
+            android:layout_gravity="right|top"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="To"
+            android:id="@+id/textView" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:id="@+id/spCountryNative"
+            android:layout_gravity="left|top"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
+
 </RelativeLayout>
