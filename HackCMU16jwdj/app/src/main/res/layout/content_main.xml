@@ -38,7 +38,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show all translations"
+            android:text="Show all detected"
             android:id="@+id/button_show_more"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="false"
