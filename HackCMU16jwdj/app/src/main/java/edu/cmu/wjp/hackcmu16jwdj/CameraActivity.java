@@ -381,7 +381,7 @@ public class CameraActivity extends Activity {
 
                 primarySourceWord.setText(parseResult[0]);
 
-                primaryTranslatedWord.setText(parseResult[1]);
+                primaryTranslatedWord.setText(parseResult[1].split("\n")[0]);
 
                 primarySourceWord.setVisibility(View.VISIBLE);
                 primaryTranslatedWord.setVisibility(View.VISIBLE);
