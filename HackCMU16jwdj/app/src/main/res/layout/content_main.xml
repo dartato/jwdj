@@ -95,6 +95,7 @@
         android:layout_marginTop="40dp"
         android:background="#fafafa"
         android:scrollbars = "vertical"
-        android:layout_above="@+id/linearLayout" />
+        android:layout_above="@+id/linearLayout"
+        android:textSize="32sp"/>
 
 </RelativeLayout>

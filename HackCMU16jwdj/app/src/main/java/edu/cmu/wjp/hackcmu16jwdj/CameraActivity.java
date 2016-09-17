@@ -343,7 +343,7 @@ public class CameraActivity extends Activity {
                         annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
                             Feature labelDetection = new Feature();
                             labelDetection.setType("LABEL_DETECTION");
-                            labelDetection.setMaxResults(10);
+                            labelDetection.setMaxResults(20);
                             add(labelDetection);
                         }});
 
@@ -379,13 +379,13 @@ public class CameraActivity extends Activity {
         }.execute();
     }
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        String message = "I found these things:\n\n";
+        String message = "Additional translations:\n\n";
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
             for (EntityAnnotation label : labels) {
-                message += String.format(" %s, %s", TranslateUtil.translate(label.getDescription(), inCountryCode), TranslateUtil.translate(label.getDescription(), outCountryCode));
-                message += "\n";
+                message += String.format("%s → %s", TranslateUtil.translate(label.getDescription(), inCountryCode), TranslateUtil.translate(label.getDescription(), outCountryCode));
+                message += "\n\n";
             }
         } else {
             message += "nothing";
