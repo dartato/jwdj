@@ -1,26 +1,44 @@
 package edu.cmu.wjp.hackcmu16jwdj;
 
+import android.util.Log;
+
 import java.util.*;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.translate.Translate;
+import com.google.api.services.translate.TranslateRequestInitializer;
 import com.google.api.services.translate.model.TranslationsListResponse;
 import com.google.api.services.translate.model.TranslationsResource;
 /**
  * Created by John on 9/17/16.
  */
 public class TranslateUtil {
+    public static final String TRANSLATE_API_KEY = "AIzaSyDIEdX6JQuzItaYgeeuOcWgPGyQaxhUdQo";
 
     public static String translate(String original, String targetLang){
         try {
-            Translate t = new Translate.Builder(
+            targetLang = targetLang.toUpperCase();
+            Log.d("TranslateUtil", original+"//"+ targetLang);
+            HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+
+            Translate.Builder tBuilder = new Translate.Builder(httpTransport, jsonFactory, null);
+            tBuilder.setTranslateRequestInitializer(new TranslateRequestInitializer(TRANSLATE_API_KEY));
+
+            Translate translator = tBuilder.build();
+
+
+            /*Translate t = new Translate.Builder(
                     com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
                     com.google.api.client.json.gson.GsonFactory.getDefaultInstance(), null)
                     .setApplicationName("hackcmu16jwdj") //Updates to our App-Name
                     .build(); //Creates the translator
+            */
+            Translate.Translations.List list = translator.new Translations().list(Arrays.asList(original), targetLang);
 
-            Translate.Translations.List list = t.new Translations().list(Arrays.asList(original), targetLang);
-
-            list.setKey("AIzaSyDIEdX6JQuzItaYgeeuOcWgPGyQaxhUdQo");
 
             TranslationsListResponse response = list.execute();
 
@@ -32,8 +50,8 @@ public class TranslateUtil {
         }
     }
 
-    /*
-    public static void main(String[]args){
+
+    /*public static void main(String[]args){
         System.out.println(translate("Hi my name is Dan the Man.","FR"));
         //______________________________________
          try {
@@ -67,5 +85,5 @@ public class TranslateUtil {
 
         //______________________________________________//
     }
-    */
+*/
 }

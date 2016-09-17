@@ -434,6 +434,7 @@ public class CameraActivity extends Activity {
         spCountryNativeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCountryNative.setAdapter(spCountryNativeAdapter);
         spCountryNative.setSelection(spCountryNativeAdapter.getPosition("English"));
+        inCountryCode = "en";
 
         spCountryNative.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -451,6 +452,7 @@ public class CameraActivity extends Activity {
         spCountryLearnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCountryLearn.setAdapter(spCountryLearnAdapter);
         spCountryLearn.setSelection(spCountryLearnAdapter.getPosition("Spanish"));
+        outCountryCode = "es";
 
         spCountryLearn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
