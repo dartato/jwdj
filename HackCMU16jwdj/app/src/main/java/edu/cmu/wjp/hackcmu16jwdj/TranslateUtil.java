@@ -9,7 +9,7 @@ import com.google.api.services.translate.model.TranslationsResource;
  * Created by John on 9/17/16.
  */
 public class TranslateUtil {
-    
+
     public static String translate(String original, String targetLang){
         try {
             Translate t = new Translate.Builder(
