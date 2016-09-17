@@ -1,5 +1,6 @@
 package edu.cmu.wjp.hackcmu16jwdj;
 
+import android.Manifest;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -55,6 +56,7 @@ import java.util.List;
 public class CameraActivity extends Activity {
     public static final String FILE_NAME = "tmp.jpg";
     private static final String CLOUD_VISION_API_KEY = "AIzaSyDIEdX6JQuzItaYgeeuOcWgPGyQaxhUdQo";
+    private static final int CAMERA_PERMISSION = 1;
 
     private Camera appCamera;
     private CameraView appCameraView;
@@ -147,10 +149,12 @@ public class CameraActivity extends Activity {
         setContentView(R.layout.activity_main_panel);
 
         CreateSpinners(savedInstanceState);
-
+        Permissions.checkAndRequestPermission(this,CAMERA_PERMISSION, Manifest.permission.CAMERA);
         appCamera = CameraUtil.getCameraInstance();
         Camera.Parameters appCameraParameters = appCamera.getParameters();
-        appCameraParameters.setRotation(90);
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        appCameraParameters.setRotation((info.orientation - 90 + 360) % 360);
         int w =0,h =0;
         for (Camera.Size s: appCameraParameters.getSupportedPictureSizes()) {
             //Log.d("Resolution Sizes: ", "width: "+s.width+" height: "+s.height+" ratio: "+s.width/(float)(s.height)+" "+1920/1080.0);

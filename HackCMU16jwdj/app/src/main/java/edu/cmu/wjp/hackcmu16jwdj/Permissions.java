@@ -15,7 +15,7 @@ public class Permissions {
         if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,permission)) {
                 AlertDialog.Builder  alertBuilder = new AlertDialog.Builder(activity);
-                alertBuilder.setTitle("Camera Permissions");
+                alertBuilder.setTitle("Permissions");
                 alertBuilder.setMessage("Camera permissions are needed to take pictures of things...");
                 alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
