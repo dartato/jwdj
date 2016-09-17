@@ -9,11 +9,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.cmu.wjp.hackcmu16jwdj.MainPanel">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_alignParentTop="true"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="156dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capture"
+            android:id="@+id/button_capture"
+            android:layout_gravity="bottom|center_horizontal" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        </FrameLayout>
+    </LinearLayout>
+
 </RelativeLayout>
