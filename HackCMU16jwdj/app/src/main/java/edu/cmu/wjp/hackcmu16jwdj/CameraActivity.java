@@ -2,12 +2,10 @@ package edu.cmu.wjp.hackcmu16jwdj;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
