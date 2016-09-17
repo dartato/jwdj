@@ -143,6 +143,8 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_panel);
 
+        CreateSpinners(savedInstanceState);
+
         appCamera = CameraUtil.getCameraInstance();
         Camera.Parameters appCameraParameters = appCamera.getParameters();
         appCameraParameters.setRotation(90);
