@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,8 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,10 +54,14 @@ public class CameraActivity extends Activity {
     private CameraView appCameraView;
     private Button captureButton;
     private Button newPictureButton;
+    private Button showMoreButton;
     private TextView primarySourceWord;
     private TextView primaryTranslatedWord;
+    private TextView moreTranslationsPane;
 
     private ImageView appMainImage;
+
+    private boolean isShowingMore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,7 @@ public class CameraActivity extends Activity {
         int w =0,h =0;
         for (Camera.Size s: appCameraParameters.getSupportedPictureSizes()) {
             //Log.d("Resolution Sizes: ", "width: "+s.width+" height: "+s.height+" ratio: "+s.width/(float)(s.height)+" "+1920/1080.0);
-            if (s.height > h && Math.abs((s.width / (float) (s.height) - 16.0 / 9.0)) < 0.1) {
+            if (s.height > h && Math.abs((s.width / (float) (s.height) - 16.0 / 9.0)) < 0.1 && s.height < 1080) {
                 w = s.width;
                 h = s.height;
 
@@ -83,7 +90,11 @@ public class CameraActivity extends Activity {
 
         primarySourceWord = (TextView) findViewById(R.id.primary_source_word);
         primaryTranslatedWord = (TextView) findViewById(R.id.primary_translated_word);
+        moreTranslationsPane = (TextView) findViewById(R.id.more_translations_pane);
 
+        moreTranslationsPane.setMovementMethod(new ScrollingMovementMethod());
+
+        moreTranslationsPane.setVisibility(View.GONE);
         primarySourceWord.setVisibility(View.GONE);
         primaryTranslatedWord.setVisibility(View.GONE);
         // Add a listener to the Capture button
@@ -99,11 +110,43 @@ public class CameraActivity extends Activity {
                 }
         );
         // Add a listener to the NewPicture button
+        showMoreButton = (Button) findViewById(R.id.button_show_more);
+        showMoreButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!isShowingMore) {
+                            appMainImage.setVisibility(View.GONE);
+                            primarySourceWord.setVisibility(View.GONE);
+                            primaryTranslatedWord.setVisibility(View.GONE);
+                            moreTranslationsPane.setVisibility(View.VISIBLE);
+                            isShowingMore = true;
+                        } else {
+                            appMainImage.setVisibility(View.VISIBLE);
+                            primarySourceWord.setVisibility(View.VISIBLE);
+                            primaryTranslatedWord.setVisibility(View.VISIBLE);
+                            moreTranslationsPane.setVisibility(View.GONE);
+                            isShowingMore = false;
+                        }
+
+                    }
+                }
+        );
+        showMoreButton.setVisibility(View.GONE);
+        // Add a listener to the ShowMore button
         newPictureButton = (Button) findViewById(R.id.button_new_picture);
         newPictureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (isShowingMore) {
+                            appMainImage.setVisibility(View.VISIBLE);
+                            primarySourceWord.setVisibility(View.VISIBLE);
+                            primaryTranslatedWord.setVisibility(View.VISIBLE);
+                            moreTranslationsPane.setVisibility(View.GONE);
+                            isShowingMore = false;
+                        }
+                        showMoreButton.setVisibility(View.GONE);
                         newPictureButton.setVisibility(View.GONE);
                         appMainImage.setVisibility(View.GONE);
                         captureButton.setVisibility(View.VISIBLE);
@@ -116,7 +159,6 @@ public class CameraActivity extends Activity {
         );
         newPictureButton.setVisibility(View.GONE);
         appMainImage = (ImageView) findViewById(R.id.main_image);
-
     }
 
     protected void onPause() {
@@ -252,6 +294,7 @@ public class CameraActivity extends Activity {
 
             protected void onPostExecute(String result) {
                 primarySourceWord.setText(result);
+                showMoreButton.setVisibility(View.VISIBLE);
                 newPictureButton.setVisibility(View.VISIBLE);
                 primarySourceWord.setVisibility(View.VISIBLE);
                 primaryTranslatedWord.setVisibility(View.VISIBLE);

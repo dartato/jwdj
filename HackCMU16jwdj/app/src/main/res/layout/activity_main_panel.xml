@@ -69,5 +69,10 @@
             android:layout_weight="0.5" />
     </LinearLayout>
 
+    <ViewFlipper
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewFlipper" />
+
 
 </RelativeLayout>
