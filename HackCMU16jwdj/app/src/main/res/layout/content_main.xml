@@ -71,8 +71,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:background="#cceeeeee"
-        android:gravity="center" />
+        android:background="#aa333333"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textColor="#eeeeee" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -83,9 +85,11 @@
         android:layout_below="@+id/primary_source_word"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="#cceeeeee"
+        android:background="#aa333333"
         android:focusable="false"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textColor="#eeeeee" />
 
     <TextView
         android:layout_width="fill_parent"
