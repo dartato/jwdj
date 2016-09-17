@@ -10,9 +10,12 @@ import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +65,78 @@ public class CameraActivity extends Activity {
     private ImageView appMainImage;
 
     private boolean isShowingMore;
+
+    private Spinner spCountryNative;
+    private Spinner spCountryLearn;
+    private ArrayAdapter<String> spCountryNativeAdapter;
+    private ArrayAdapter<String> spCountryLearnAdapter;
+
+    private final String languagesAndCodes[] = {"Afrikaans", "af",
+            "Albanian", "sq",
+            "Arabic", "ar",
+            "Azerbaijani", "az",
+            "Basque", "eu",
+            "Belarusian", "be",
+            "Bengali", "bn",
+            "Bulgarian", "bg",
+            "Catalan", "ca",
+            "Chinese","zh-CN",
+            "Croatian", "hr",
+            "Czech","cs",
+            "Danish", "da",
+            "Dutch", "nl",
+            "English","en",
+            "Esperanto","eo",
+            "Estonian","et",
+            "Filipino","tl",
+            "Finnish","fi",
+            "French","fr",
+            "Galician","gl",
+            "Georgian", "ka",
+            "German","de",
+            "Greek", "el",
+            "Gujarati", "gu",
+            "Haitian Creole", "ht",
+            "Hebrew", "iw",
+            "Hindi","hi",
+            "Hungarian","hu",
+            "Icelandic", "is",
+            "Indonesian", "id",
+            "Irish", "ga",
+            "Italian", "it",
+            "Japanese", "ja",
+            "Kannada", "kn",
+            "Korean", "ko",
+            "Latin", "la",
+            "Latvian", "lv",
+            "Lithuanian", "lt",
+            "Macedonian","mk",
+            "Malay","ms",
+            "Maltese","mt",
+            "Norwegian","no",
+            "Persian","fa",
+            "Polish","pl",
+            "Portuguese","pt",
+            "Romanian","ro",
+            "Russian","ru",
+            "Serbian","sr",
+            "Slovak","sk",
+            "Slovenian","sl",
+            "Spanish","es",
+            "Swahili","sw",
+            "Swedish","sv",
+            "Tamil","ta",
+            "Telugu","te",
+            "Thai","th",
+            "Turkish","tr",
+            "Ukrainian", "uk",
+            "Urdu","ur",
+            "Vietnamese","vi",
+            "Welsh","cy",
+            "Yiddish","yi"};
+
+    private String inCountryCode;
+    private String outCountryCode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -320,5 +395,71 @@ public class CameraActivity extends Activity {
         CharSequence alert = text;
         Toast.makeText(getApplicationContext(), alert, Toast.LENGTH_LONG).show();
 
+    }
+
+    private String GetLangCodeFromLang( String lang)
+    {
+        for (int i = 0; i < languagesAndCodes.length; i += 1)
+        {
+            if(languagesAndCodes[i] == lang)
+            {
+                return languagesAndCodes[i+1];
+            }
+        }
+        return "en";
+    }
+
+    public void CreateSpinners(Bundle savedInstanceState)
+    {
+        String languages[] = new String[languagesAndCodes.length/2];
+        String langCodes[] = new String[languagesAndCodes.length/2];
+
+        for (int i = 0; i < languagesAndCodes.length; i+=2)
+        {
+            languages[i/2] = languagesAndCodes[i];
+        }
+
+        for (int i = 1; i < languagesAndCodes.length; i+=2)
+        {
+            langCodes[(i-1)/2] = languagesAndCodes[i];
+        }
+
+        spCountryNative = (Spinner) findViewById(R.id.spCountryNative);
+        spCountryLearn = (Spinner) findViewById(R.id.spCountryLearn);
+
+        // Initialize and set Adapter
+        spCountryNativeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        spCountryNativeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCountryNative.setAdapter(spCountryNativeAdapter);
+        spCountryNative.setSelection(spCountryNativeAdapter.getPosition("English"));
+
+        spCountryNative.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id) {
+                String scountry = adapter.getItemAtPosition(position).toString();
+                inCountryCode = GetLangCodeFromLang(scountry);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        spCountryLearnAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        spCountryLearnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCountryLearn.setAdapter(spCountryLearnAdapter);
+        spCountryLearn.setSelection(spCountryLearnAdapter.getPosition("Spanish"));
+
+        spCountryLearn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id) {
+                String scountry = adapter.getItemAtPosition(position).toString();
+                outCountryCode = GetLangCodeFromLang(scountry);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 }
