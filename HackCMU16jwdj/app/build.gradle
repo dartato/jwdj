@@ -28,7 +28,8 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
 
-    compile 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
+    compile 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'     //adds vision api
+    compile 'com.google.apis:google-api-services-translate:v2-rev47-1.22.0' //adds translate api
 }
 
 
