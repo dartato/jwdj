@@ -384,7 +384,7 @@ public class CameraActivity extends Activity {
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
             for (EntityAnnotation label : labels) {
-                message += String.format("%.3f: %s", label.getScore(), label.getDescription());
+                message += String.format(" %s, %s", TranslateUtil.translate(label.getDescription(), inCountryCode), TranslateUtil.translate(label.getDescription(), outCountryCode));
                 message += "\n";
             }
         } else {
