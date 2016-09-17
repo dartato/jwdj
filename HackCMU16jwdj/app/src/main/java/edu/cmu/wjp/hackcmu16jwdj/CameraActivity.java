@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -50,6 +51,8 @@ public class CameraActivity extends Activity {
     private CameraView appCameraView;
     private Button captureButton;
     private Button newPictureButton;
+    private TextView primarySourceWord;
+    private TextView primaryTranslatedWord;
 
     private ImageView appMainImage;
 
@@ -76,6 +79,13 @@ public class CameraActivity extends Activity {
         appCameraView = new CameraView(this, appCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(appCameraView);
+
+
+        primarySourceWord = (TextView) findViewById(R.id.primary_source_word);
+        primaryTranslatedWord = (TextView) findViewById(R.id.primary_translated_word);
+
+        primarySourceWord.setVisibility(View.GONE);
+        primaryTranslatedWord.setVisibility(View.GONE);
         // Add a listener to the Capture button
         captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
@@ -98,6 +108,8 @@ public class CameraActivity extends Activity {
                         appMainImage.setVisibility(View.GONE);
                         captureButton.setVisibility(View.VISIBLE);
                         appCameraView.setVisibility(View.VISIBLE);
+                        primarySourceWord.setVisibility(View.GONE);
+                        primaryTranslatedWord.setVisibility(View.GONE);
                         appCameraView.startPreview();
                     }
                 }
@@ -239,8 +251,10 @@ public class CameraActivity extends Activity {
             }
 
             protected void onPostExecute(String result) {
-                alert(result);
+                primarySourceWord.setText(result);
                 newPictureButton.setVisibility(View.VISIBLE);
+                primarySourceWord.setVisibility(View.VISIBLE);
+                primaryTranslatedWord.setVisibility(View.VISIBLE);
             }
         }.execute();
     }
